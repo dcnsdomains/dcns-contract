@@ -65,4 +65,26 @@ describe('DcNSRegistry', function () {
     expect(await registry.resolver(ZERO_HASH)).to.equal(addr2)
     expect(await registry.ttl(ZERO_HASH)).to.equal(3600)
   })
+
+  it('should allow setting subnode records', async () => {
+    const addr1 = await accounts[1].getAddress()
+    const addr2 = await accounts[2].getAddress()
+    const label = sha3('teset')!
+    await registry.connect(accounts[0]).setSubnodeRecord(ZERO_HASH, label, addr1, addr2, 3600)
+
+    const hash = namehash.hash('test')
+    expect(await registry.owner(hash)).to.equal(addr1)
+    expect(await registry.resolver(hash)).to.equal(addr2)
+    expect(await registry.ttl(hash)).to.equal(3600)
+  })
+
+  it('should implement authorizations/operators', async () => {
+    const addr1 = await accounts[1].getAddress()
+    const addr2 = await accounts[2].getAddress()
+    
+    await registry.connect(accounts[0]).setApprovalForAll(addr1, true)
+    await registry.connect(accounts[0]).setOwner(ZERO_HASH, addr2)
+
+    expect(await registry.owner(ZERO_HASH)).to.equal(addr2)
+  })
 })
