@@ -68,7 +68,7 @@ describe('DcNSRegistry', function () {
   it('should allow setting subnode records', async () => {
     const addr1 = await accounts[1].getAddress()
     const addr2 = await accounts[2].getAddress()
-    const label = sha3('teset')!
+    const label = sha3('test')!
     await registry.connect(accounts[0]).setSubnodeRecord(ZERO_HASH, label, addr1, addr2, 3600)
 
     const hash = namehash.hash('test')
