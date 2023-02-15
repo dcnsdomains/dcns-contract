@@ -46,7 +46,7 @@ async function main() {
 
   // PriceOracle
   const PriceOracle = await ethers.getContractFactory('PriceOracle')
-  const priceOracle = await PriceOracle.deploy([7400, 1850, 230])
+  const priceOracle = await PriceOracle.deploy([0, 0, 234496672381308, 58624168095327, 7288410087527])
   await priceOracle.deployTransaction.wait()
   console.log('PriceOracle address', priceOracle.address)
 

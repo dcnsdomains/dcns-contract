@@ -21,6 +21,10 @@ contract PriceOracle is Ownable {
         setPrices(_rentPrices);
     }
 
+    function getRentPrices() public view returns(uint[] memory) {
+        return rentPrices;
+    }
+
     /**
      * @dev Returns the price to register or renew a name.
      * @param name The name being registered or renewed.
