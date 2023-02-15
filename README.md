@@ -1,13 +1,21 @@
-# Sample Hardhat Project
+# dcnsdomains-contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+![CI](https://github.com/dcnsdomains/dcnsdomains-contract/CI/badge.svg)
 
-Try running some of the following tasks:
+For documentation of the dcnsdomains system
 
-```shell
-npx hardhat help
+## Developer guide
+
+### How to setup
+
+```
+git clone https://github.com/dcnsdomains/dcnsdomains-contract
+cd dcnsdomains-contract
+npm install
+```
+
+### How to run tests
+
+```
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
 ```
