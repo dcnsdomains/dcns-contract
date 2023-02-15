@@ -1,6 +1,6 @@
 # dcnsdomains-contract
 
-![CI](https://github.com/dcnsdomains/dcnsdomains-contract/CI/badge.svg)
+![CI](https://github.com/dcnsdomains/dcnsdomains-contract/workflows/CI/badge.svg)
 
 For documentation of the dcnsdomains system
 
