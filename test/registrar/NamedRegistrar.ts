@@ -109,4 +109,19 @@ describe('NamedRegistrar', function () {
 		await registrar.connect(accounts[0]).setResolver(controllerAccount)
     expect(await registry.resolver(namehash.hash('dc')), controllerAccount)
 	})
+
+  describe('ERC721', async () => {
+    it('should return correct symbol', async () => {
+      expect(await registrar.symbol()).to.eq('.DC')
+    })
+  
+    it('should return correct name', async () => {
+      expect(await registrar.name()).to.eq('.dc domains')
+    })
+
+    it('should return correct tokenURI', async () => {
+      await registrar.setBaseURI('https://example.com/')
+      expect(await registrar.tokenURI(sha3('new')!)).to.eq('https://example.com/29807717549922883101995625401455055095059413882631164311004142882427459442649')
+    })
+  })
 })
