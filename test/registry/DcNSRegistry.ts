@@ -1,9 +1,8 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
-import { Signer, utils } from "ethers"
+import { Signer } from "ethers"
 import { DcNSRegistry } from "../../typechain-types"
 import { sha3 } from 'web3-utils'
-import { experimentalAddHardhatNetworkMessageTraceHook } from 'hardhat/config'
 const namehash = require('eth-ens-namehash')
 
 const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
