@@ -1,13 +1,16 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
-const real_accounts = [
-  process.env.DEPLOYER_KEY, process.env.OWNER_KEY, process.env.USER_KEY
-] as string[]
+const real_accounts = [] as string[]
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   networks: {
+    localhost: {
+      blockGasLimit: 30000000,
+      gasPrice: 50000000000,
+      gas: 30000000,
+    },
     dogechain: {
       url: "https://dogechain.ankr.com",
       accounts: real_accounts,
