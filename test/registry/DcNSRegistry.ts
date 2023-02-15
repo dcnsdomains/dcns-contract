@@ -3,6 +3,7 @@ import { ethers } from 'hardhat'
 import { Signer, utils } from "ethers"
 import { DcNSRegistry } from "../../typechain-types"
 import { sha3 } from 'web3-utils'
+import { experimentalAddHardhatNetworkMessageTraceHook } from 'hardhat/config'
 const namehash = require('eth-ens-namehash')
 
 const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000';
@@ -52,5 +53,16 @@ describe('DcNSRegistry', function () {
     expect(await registry.owner(namehash.hash('dc'))).to.equal(owner)
 
     expect(result.logs.length).to.equal(1)
+  })
+
+  it('should allow setting the record', async () => {
+    const addr1 = await accounts[1].getAddress()
+    const addr2 = await accounts[2].getAddress()
+    
+    await registry.connect(accounts[0]).setRecord(ZERO_HASH, addr1, addr2, 3600)
+
+    expect(await registry.owner(ZERO_HASH)).to.equal(addr1)
+    expect(await registry.resolver(ZERO_HASH)).to.equal(addr2)
+    expect(await registry.ttl(ZERO_HASH)).to.equal(3600)
   })
 })
