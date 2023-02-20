@@ -1,7 +1,12 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "@nomiclabs/hardhat-etherscan";
 
-const real_accounts = [] as string[]
+require('dotenv').config({silent: true});
+
+const real_accounts = [
+  process.env.DEPLOYER_KEY
+] as string[]
 
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
@@ -10,24 +15,32 @@ const config: HardhatUserConfig = {
       blockGasLimit: 30000000,
       gasPrice: 50000000000,
       gas: 30000000,
+      allowUnlimitedContractSize: true
+    },
+    hardhat: {
+      allowUnlimitedContractSize: true
     },
     dogechain: {
       url: "https://dogechain.ankr.com",
       accounts: real_accounts,
       chainId: 2000,
+      blockGasLimit: 50000000000,
       gasPrice: 50000000000,
+      allowUnlimitedContractSize: true
     },
     "dogechain-testnet": {
       url: "https://rpc-testnet.dogechain.dog",
       accounts: real_accounts,
       chainId: 568,
+      blockGasLimit: 50000000000,
       gasPrice: 500000000000,
+      allowUnlimitedContractSize: true
     }
   },
   etherscan: {
     apiKey: {
-      dogechain: "",
-      'dogechain-testnet': "",
+      dogechain: "48828825-a751-4b2a-956e-7b6f1e10ecff",
+      'dogechain-testnet': "48828825-a751-4b2a-956e-7b6f1e10ecff",
     },
     customChains: [
       {

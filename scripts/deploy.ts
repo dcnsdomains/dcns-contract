@@ -7,14 +7,6 @@ const labelhash = (label: string) => utils.keccak256(utils.toUtf8Bytes(label))
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ZERO_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
-async function verify(address: string, constructorArguments: string[]) {
-  console.log(`verify ${address} with arguments ${constructorArguments.join(',')}`)
-  await run('verify', {
-    address,
-    constructorArguments
-  })
-}
-
 async function main() {
   const [deployer] = await ethers.getSigners()
   console.log(`Deploying contracts to ${network.name} with the account:${deployer.address}`)
@@ -33,6 +25,9 @@ async function main() {
 
   const resolverNode = namehash('resolver')
   const resolverLabel = labelhash('resolver')
+
+  console.log('resolverNode: ', resolverNode)
+  console.log('resolverLabel: ', resolverLabel)
 
   await registry.setSubnodeOwner(ZERO_HASH, resolverLabel, deployer.address)
   await registry.setResolver(resolverNode, resolver.address)
