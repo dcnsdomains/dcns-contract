@@ -4,6 +4,11 @@ import "@nomiclabs/hardhat-etherscan";
 
 require('dotenv').config({silent: true});
 
+const FAKE_KEY = '1534212400595780128907894565908032193840975895983208948093128444'
+const real_accounts = [
+  process.env.DEPLOYER_KEY || FAKE_KEY
+]
+
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
   networks: {
@@ -18,7 +23,7 @@ const config: HardhatUserConfig = {
     },
     dogechain: {
       url: "https://dogechain.ankr.com",
-      accounts: [process.env.DEPLOYER_KEY as string],
+      accounts: real_accounts,
       chainId: 2000,
       blockGasLimit: 50000000000,
       gasPrice: 50000000000,
@@ -26,7 +31,7 @@ const config: HardhatUserConfig = {
     },
     "dogechain-testnet": {
       url: "https://rpc-testnet.dogechain.dog",
-      accounts: [process.env.DEPLOYER_KEY as string],
+      accounts: real_accounts,
       chainId: 568,
       blockGasLimit: 50000000000,
       gasPrice: 500000000000,
