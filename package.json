@@ -2,14 +2,14 @@
   "name": "hardhat-project",
   "dependencies": {
     "@ensdomains/ens-contracts": "^0.0.17",
-    "@openzeppelin/contracts": "^4.8.1",
-    "web3-utils": "^1.8.2"
+    "@openzeppelin/contracts": "^4.8.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.6",
     "dotenv": "16.0.3",
     "eth-ens-namehash": "^2.0.8",
-    "hardhat": "^2.12.6"
+    "hardhat": "^2.12.6",
+    "web3-utils": "^1.8.2"
   }
 }

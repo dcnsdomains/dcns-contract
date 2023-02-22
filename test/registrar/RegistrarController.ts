@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import { ethers } from 'hardhat'
 import { Signer, BigNumber } from 'ethers'
 import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, RegistrarController } from '../../typechain-types'
-import { isBigNumber, sha3, toBN } from 'web3-utils'
+import { sha3 } from 'web3-utils'
 const namehash = require('eth-ens-namehash')
 
 const DAYS = 24 * 60 * 60;
@@ -118,9 +118,19 @@ describe('RegistrarController', function () {
     await controller.renew('newname', 86400, { value: BigNumber.from('30000000000000000000') })
     const newExpires = await baseRegistrar.nameExpires(sha3('newname')!)
     expect(newExpires.toNumber() - expires.toNumber()).to.eq(86400)
-});
+  })
 
   it('should require sufficient value for a renewal', async () => {
     await expect(controller.renew('name', 86400)).to.be.rejected
+  })
+
+  it('should allow anyone to withdraw funds and transfer to the registrar owner', async () => {
+    expect(await ethers.provider.getBalance(controller.address)).to.not.eq(0)
+    await controller.withdraw({ from: ownerAccount })
+    expect(await ethers.provider.getBalance(controller.address)).to.eq(0)
+  })
+
+  it('forbids withdraw by non-owners', async () => {
+    await expect(controller.withdraw({ from: registrantAccount })).to.be.rejected
   })
 })

@@ -111,6 +111,10 @@ contract RegistrarController is Ownable {
         emit NewPriceOracle(address(prices));
     }
 
+    function withdraw() public onlyOwner {
+        payable(owner()).transfer(address(this).balance);
+    }
+
     function _consumeCommitment(string memory name, uint duration) internal returns (uint256) {
         require(available(name));
         uint cost = rentPrice(name, duration);
