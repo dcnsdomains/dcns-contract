@@ -1,5 +1,10 @@
 {
-  "name": "hardhat-project",
+  "name": "@dcnsdomains/dcns-contracts",
+  "version": "0.0.1",
+  "description": "DcNS contracts",
+  "scripts": {
+    "test": "hardhat test"
+  },
   "dependencies": {
     "@ensdomains/ens-contracts": "^0.0.17",
     "@openzeppelin/contracts": "^4.8.1"
