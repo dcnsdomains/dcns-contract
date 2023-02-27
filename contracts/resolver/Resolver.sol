@@ -6,5 +6,5 @@ import "./interfaces/INameResolver.sol";
 
 interface Resolver is IAddrResolver, INameResolver {
     function setAddr(bytes32 node, address addr) external;
-    function setName(bytes32 node, string calldata _name) external;
+    function setName(bytes32 node, string memory _name) external;
 }

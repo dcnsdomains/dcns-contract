@@ -12,7 +12,7 @@ abstract contract NameResolver is INameResolver, ResolverBase {
      * May only be called by the owner of that node in the ENS registry.
      * @param node The node to update.
      */
-    function setName(bytes32 node, string calldata newName) virtual external authorised(node) {
+    function setName(bytes32 node, string memory newName) external virtual authorised(node) {
         names[node] = newName;
         emit NameChanged(node, newName);
     }
