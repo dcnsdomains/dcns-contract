@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
 import { Signer, BigNumber } from 'ethers'
-import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, RegistrarController } from '../../typechain-types'
+import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, RegistrarController, ReverseRegistrar } from '../../typechain-types'
 import { sha3, toBN } from 'web3-utils'
 const namehash = require('eth-ens-namehash')
 
@@ -15,6 +15,7 @@ describe('PriceOracle', function () {
   let baseRegistrar: NamedRegistrar
   let controller: RegistrarController
   let priceOracle: PriceOracle
+  let reverseRegistrar: ReverseRegistrar
   let nameWrapper: DummyNameWrapper
 
   let accounts: Signer[]
@@ -33,13 +34,15 @@ describe('PriceOracle', function () {
     const RegistrarController = await ethers.getContractFactory('RegistrarController')
     const PriceOracle = await ethers.getContractFactory('PriceOracle')
     const DummyNameWrapper = await ethers.getContractFactory('DummyNameWrapper')
+    const ReverseRegistrar = await ethers.getContractFactory('ReverseRegistrar')
 
     registry = await DcNSRegistry.deploy()
     nameWrapper = await DummyNameWrapper.deploy()
     resolver = await PublicResolver.deploy(registry.address, nameWrapper.address)
     baseRegistrar = await NamedRegistrar.deploy(registry.address, namehash.hash('dc')!, 'dc')
     priceOracle = await PriceOracle.deploy([0, 0, 234496672381308, 58624168095327, 7288410087527])
-    controller = await RegistrarController.deploy(baseRegistrar.address, priceOracle.address)
+    reverseRegistrar = await ReverseRegistrar.deploy(registry.address, resolver.address)
+    controller = await RegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
 
     await registry.connect(accounts[0]).setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
     await baseRegistrar.connect(accounts[0]).addController(controller.address)

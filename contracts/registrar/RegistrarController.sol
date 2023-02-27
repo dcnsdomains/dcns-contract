@@ -5,14 +5,16 @@ import "./NamedRegistrar.sol";
 import "./PriceOracle.sol";
 import "./StringUtils.sol";
 import "../resolver/Resolver.sol";
+import "../registry/ReverseRegistrar.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract RegistrarController is Ownable {
     using StringUtils for *;
     uint constant public MIN_REGISTRATION_DURATION = 28 days;
 
-    NamedRegistrar base;
-    PriceOracle prices;
+    NamedRegistrar public base;
+    PriceOracle public prices;
+    ReverseRegistrar public reverseRegistrar;
 
     event NameRegistered(string name, bytes32 indexed label, address indexed owner, uint cost, uint expires);
     event NameRenewed(string name, bytes32 indexed label, uint cost, uint expires);
@@ -20,10 +22,12 @@ contract RegistrarController is Ownable {
 
     constructor(
         NamedRegistrar _base,
-        PriceOracle _prices
+        PriceOracle _prices,
+        ReverseRegistrar _reverseRegistrar
     ) {
         base = _base;
         prices = _prices;
+        reverseRegistrar = _reverseRegistrar;
     }
 
     function rentPrice(string memory name, uint duration) view public returns(uint) {
@@ -84,6 +88,8 @@ contract RegistrarController is Ownable {
             expires = base.register(tokenId, owner, duration);
         }
 
+        _setReverseRecord(name, owner);
+
         emit NameRegistered(name, label, owner, cost, expires);
 
         // Refund any extra payment
@@ -113,6 +119,14 @@ contract RegistrarController is Ownable {
 
     function withdraw() public onlyOwner {
         payable(owner()).transfer(address(this).balance);
+    }
+
+    function _setReverseRecord(string memory name, address owner) internal {
+        reverseRegistrar.setNameForAddr(
+            msg.sender,
+            owner,
+            string(abi.encodePacked(name, abi.encodePacked(".", base.baseNodeName())))
+        );
     }
 
     function _consumeCommitment(string memory name, uint duration) internal returns (uint256) {
