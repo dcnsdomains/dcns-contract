@@ -19,7 +19,7 @@ describe('DcNSRegistry', function () {
 
   it('should allow ownership transfers', async () => {
     const addr = '0x0000000000000000000000000000000000001234'
-    const transaction = await registry.connect(accounts[0]).setOwner(ZERO_HASH, addr)
+    const transaction = await registry.setOwner(ZERO_HASH, addr)
     const result = await transaction.wait()
 
     expect(await registry.owner(ZERO_HASH)).to.equal(addr)
@@ -28,7 +28,7 @@ describe('DcNSRegistry', function () {
 
   it('should allow setting resolvers', async () => {
     const addr = '0x0000000000000000000000000000000000001234'
-    const transaction = await registry.connect(accounts[0]).setResolver(ZERO_HASH, addr)
+    const transaction = await registry.setResolver(ZERO_HASH, addr)
     const result = await transaction.wait()
 
     expect(await registry.resolver(ZERO_HASH)).to.equal(addr)
@@ -36,7 +36,7 @@ describe('DcNSRegistry', function () {
   })
 
   it('should allow setting the TTL', async () => {
-    const transaction = await registry.connect(accounts[0]).setTTL(ZERO_HASH, 3600)
+    const transaction = await registry.setTTL(ZERO_HASH, 3600)
     const result = await transaction.wait()
 
     expect(await registry.ttl(ZERO_HASH)).to.equal(3600)
@@ -46,7 +46,7 @@ describe('DcNSRegistry', function () {
   it('should allow the creation of subnodes', async () => {
     const owner = await accounts[1].getAddress()
     const label = sha3('dc')!
-    const transaction = await registry.connect(accounts[0]).setSubnodeOwner(ZERO_HASH, label, owner)
+    const transaction = await registry.setSubnodeOwner(ZERO_HASH, label, owner)
     const result = await transaction.wait()
 
     expect(await registry.owner(namehash.hash('dc'))).to.equal(owner)
@@ -58,7 +58,7 @@ describe('DcNSRegistry', function () {
     const addr1 = await accounts[1].getAddress()
     const addr2 = await accounts[2].getAddress()
     
-    await registry.connect(accounts[0]).setRecord(ZERO_HASH, addr1, addr2, 3600)
+    await registry.setRecord(ZERO_HASH, addr1, addr2, 3600)
 
     expect(await registry.owner(ZERO_HASH)).to.equal(addr1)
     expect(await registry.resolver(ZERO_HASH)).to.equal(addr2)
@@ -69,7 +69,7 @@ describe('DcNSRegistry', function () {
     const addr1 = await accounts[1].getAddress()
     const addr2 = await accounts[2].getAddress()
     const label = sha3('test')!
-    await registry.connect(accounts[0]).setSubnodeRecord(ZERO_HASH, label, addr1, addr2, 3600)
+    await registry.setSubnodeRecord(ZERO_HASH, label, addr1, addr2, 3600)
 
     const hash = namehash.hash('test')
     expect(await registry.owner(hash)).to.equal(addr1)
@@ -81,8 +81,8 @@ describe('DcNSRegistry', function () {
     const addr1 = await accounts[1].getAddress()
     const addr2 = await accounts[2].getAddress()
     
-    await registry.connect(accounts[0]).setApprovalForAll(addr1, true)
-    await registry.connect(accounts[0]).setOwner(ZERO_HASH, addr2)
+    await registry.setApprovalForAll(addr1, true)
+    await registry.setOwner(ZERO_HASH, addr2)
 
     expect(await registry.owner(ZERO_HASH)).to.equal(addr2)
   })

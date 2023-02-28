@@ -68,24 +68,24 @@ describe('ReverseRegistrar', function () {
 
   describe('claim', () => {
     it('allows an account to claim its address', async () => {
-      await registrar.connect(accounts[0]).claim(addr2)
+      await registrar.claim(addr2)
       expect(await registry.owner(node1)).to.eq(addr2)
     })
   })
 
   describe('claimForAddr', () => {
     it('allows an account to claim its address', async () => {
-      await registrar.connect(accounts[0]).claimForAddr(addr1, addr2)
+      await registrar.claimForAddr(addr1, addr2)
       expect(await registry.owner(node1)).to.eq(addr2)
     })
 
     it('forbids an account to claim another address', async () => {
-      await expect(registrar.connect(accounts[0]).claimForAddr(addr2, addr1)).to.be.rejected
+      await expect(registrar.claimForAddr(addr2, addr1)).to.be.rejected
     })
 
     it('allows an authorised account to claim a different address', async () => {
       await registry.connect(accounts[1]).setApprovalForAll(addr1, true)
-      await registrar.connect(accounts[0]).claimForAddr(addr2, addr3)
+      await registrar.claimForAddr(addr2, addr3)
       expect(await registry.owner(node2)).to.eq(addr3)
     })
 
@@ -104,7 +104,7 @@ describe('ReverseRegistrar', function () {
 
   describe('claimWithResolver', () => {
     it('allows an account to specify resolver', async () => {
-      await registrar.connect(accounts[0]).claimWithResolver(addr2, addr3)
+      await registrar.claimWithResolver(addr2, addr3)
       expect(await registry.owner(node1)).to.eq(addr2)
       expect(await registry.resolver(node1)).to.eq(addr3)
     })
@@ -112,7 +112,7 @@ describe('ReverseRegistrar', function () {
 
   describe('setName', () => {
     it('sets name records', async () => {
-      await registrar.connect(accounts[0]).setName('testname')
+      await registrar.setName('testname')
       expect(await registry.resolver(node1)).to.eq(defaultResolver.address)
       expect(await defaultResolver.name(node1)).to.eq('testname')
     })
@@ -127,24 +127,24 @@ describe('ReverseRegistrar', function () {
     })
 
     it('forbids non-controller if address is different from sender and not authorised', async () => {
-      await expect(registrar.connect(accounts[0]).setNameForAddr(addr2, addr1, 'testname')).to.be.rejected
+      await expect(registrar.setNameForAddr(addr2, addr1, 'testname')).to.be.rejected
     })
 
     it('allows name to be set for an address if the sender is the address', async () => {
-      await registrar.connect(accounts[0]).setNameForAddr(addr1, addr1, 'testname')
+      await registrar.setNameForAddr(addr1, addr1, 'testname')
       expect(await registry.resolver(node1)).to.eq(resolver.address)
       expect(await resolver.name(node1)).to.eq('testname')
     })
 
     it('allows name to be set for an address if the sender is authorized', async () => {
-      await registry.connect(accounts[0]).setApprovalForAll(addr2, true)
+      await registry.setApprovalForAll(addr2, true)
       await registrar.connect(accounts[1]).setNameForAddr(addr1, addr1, 'testname')
       expect(await registry.resolver(node1)).to.eq(resolver.address)
       expect(await resolver.name(node1)).to.eq('testname')
     })
 
     it('allows an owner() of a contract to claimWithResolverForAddr on behalf of the contract', async () => {
-      await registrar.connect(accounts[0]).setNameForAddr(
+      await registrar.setNameForAddr(
         dummyOwnable.address,
         addr1,
         'dummyownable.dc'

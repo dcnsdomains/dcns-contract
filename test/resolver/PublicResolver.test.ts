@@ -32,7 +32,7 @@ describe('PublicResolver', function () {
     nameWrapper = await DummyNameWrapper.deploy()
     resolver = await PublicResolver.deploy(registry.address, nameWrapper.address)
 
-    await registry.connect(accounts[0]).setSubnodeOwner(ZERO_HASH, sha3('dc')!, addr0)
+    await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, addr0)
   })
 
   describe('supportsInterface function', async () => {
@@ -49,24 +49,24 @@ describe('PublicResolver', function () {
 
   describe('addr', async () => {
     it('permits setting address by owner', async () => {
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
 
       expect(await resolver.addr(node)).to.equal(addr1)
     })
 
     it('can overwrite previously set address', async () => {
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
       expect(await resolver.addr(node)).to.equal(addr1)
 
-      await resolver.connect(accounts[0]).setAddr(node, addr0)
+      await resolver.setAddr(node, addr0)
       expect(await resolver.addr(node)).to.equal(addr0)
     })
 
     it('can overwrite to same address', async () => {
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
       expect(await resolver.addr(node)).to.equal(addr1)
 
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
       expect(await resolver.addr(node)).to.equal(addr1)
     })
 
@@ -75,12 +75,12 @@ describe('PublicResolver', function () {
     })
 
     it('forbids writing same address by non-owners', async () => {
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
       await expect(resolver.connect(accounts[1]).setAddr(node, addr1)).to.be.rejected
     })
 
     it('forbids overwriting existing address by non-owners', async () => {
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
 
       await expect(resolver.connect(accounts[1]).setAddr(node, addr0)).to.be.rejected
     })
@@ -92,15 +92,15 @@ describe('PublicResolver', function () {
 
   describe('name', async () => {
     it('permits setting name by owner', async () => {
-      await resolver.connect(accounts[0]).setName(node, 'name1')
+      await resolver.setName(node, 'name1')
       expect(await resolver.name(node)).to.equal('name1')
     })
 
     it('can overwirte previously set names', async () => {
-      await resolver.connect(accounts[0]).setName(node, 'name1')
+      await resolver.setName(node, 'name1')
       expect(await resolver.name(node)).to.equal('name1')
 
-      await resolver.connect(accounts[0]).setName(node, 'name2')
+      await resolver.setName(node, 'name2')
       expect(await resolver.name(node)).to.equal('name2')
     })
 
@@ -109,26 +109,26 @@ describe('PublicResolver', function () {
     })
 
     it('returns empty when fetching nonexistent name', async () => {
-        expect(await resolver.connect(accounts[0]).name(node)).to.equal('')
+        expect(await resolver.name(node)).to.equal('')
     })
   })
   
   describe('authorizations', async () => {
     it('permits authorizations to be set', async () => {
-      await resolver.connect(accounts[0]).setApprovalForAll(addr1, true)
+      await resolver.setApprovalForAll(addr1, true)
       expect(await resolver.isApprovedForAll(addr0, addr1)).to.true
     })
 
     it('permits authorised users to make changes', async () => {
-      await resolver.connect(accounts[0]).setApprovalForAll(addr1, true);
+      await resolver.setApprovalForAll(addr1, true);
       expect(await resolver.isApprovedForAll(await registry.owner(node), addr1)).to.true
 
-      await resolver.connect(accounts[0]).setAddr(node, addr1)
+      await resolver.setAddr(node, addr1)
       expect(await resolver.addr(node)).to.equal(addr1)
     })
 
     it('permits authorisations to be cleared', async () => {
-      await resolver.connect(accounts[0]).setApprovalForAll(addr1, false)
+      await resolver.setApprovalForAll(addr1, false)
       await expect(resolver.connect(accounts[1]).setAddr(node, addr0)).to.be.rejected
     })
 
@@ -141,7 +141,7 @@ describe('PublicResolver', function () {
 
     it('checks the authorisation for the current owner', async () => {
       await resolver.connect(accounts[1]).setApprovalForAll(addr2, true)
-      await registry.connect(accounts[0]).setOwner(node, addr1)
+      await registry.setOwner(node, addr1)
 
       await resolver.connect(accounts[2]).setAddr(node, addr0)
       expect(await resolver.addr(node)).to.equal(addr0)

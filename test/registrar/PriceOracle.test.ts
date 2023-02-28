@@ -44,9 +44,9 @@ describe('PriceOracle', function () {
     reverseRegistrar = await ReverseRegistrar.deploy(registry.address, resolver.address)
     controller = await RegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
 
-    await registry.connect(accounts[0]).setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
-    await baseRegistrar.connect(accounts[0]).addController(controller.address)
-    await controller.connect(accounts[0]).setPriceOracle(priceOracle.address)
+    await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
+    await baseRegistrar.addController(controller.address)
+    await controller.setPriceOracle(priceOracle.address)
   })
 
   it('should not allow other users to call ownable methods', async () => {

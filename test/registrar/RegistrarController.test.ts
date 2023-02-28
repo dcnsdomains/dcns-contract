@@ -44,11 +44,11 @@ describe('RegistrarController', function () {
     controller = await RegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
 
     await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
-    await baseRegistrar.connect(accounts[0]).addController(controller.address)
-    await controller.connect(accounts[0]).setPriceOracle(priceOracle.address)
-    await reverseRegistrar.connect(accounts[0]).setController(controller.address, true)
-    await registry.connect(accounts[0]).setSubnodeOwner(ZERO_HASH, sha3('reverse')!, ownerAccount)
-    await registry.connect(accounts[0]).setSubnodeOwner(namehash.hash('reverse')!, sha3('addr')!, reverseRegistrar.address)
+    await baseRegistrar.addController(controller.address)
+    await controller.setPriceOracle(priceOracle.address)
+    await reverseRegistrar.setController(controller.address, true)
+    await registry.setSubnodeOwner(ZERO_HASH, sha3('reverse')!, ownerAccount)
+    await registry.setSubnodeOwner(namehash.hash('reverse')!, sha3('addr')!, reverseRegistrar.address)
   })
 
   const checkLabels: { [key: string]: boolean } = {
@@ -91,7 +91,7 @@ describe('RegistrarController', function () {
   })
 
   it('should permit new registrations', async () => {
-    await controller.connect(accounts[0]).register('newname', registrantAccount, 28 * DAYS, { value: BigNumber.from('30000000000000000000') })
+    await controller.register('newname', registrantAccount, 28 * DAYS, { value: BigNumber.from('30000000000000000000') })
   })
 
   it('should report registered names as unavailable', async () => {
@@ -99,7 +99,7 @@ describe('RegistrarController', function () {
   })
 
   it('should permit new registrations with config', async () => {
-    await controller.connect(accounts[0]).registerWithConfig('newconfigname', registrantAccount, 28 * DAYS, resolver.address, registrantAccount, { value: BigNumber.from('30000000000000000000') })
+    await controller.registerWithConfig('newconfigname', registrantAccount, 28 * DAYS, resolver.address, registrantAccount, { value: BigNumber.from('30000000000000000000') })
 
     const nodehash = namehash.hash('newconfigname.dc')
     expect(await registry.resolver(nodehash)).to.eq(resolver.address)

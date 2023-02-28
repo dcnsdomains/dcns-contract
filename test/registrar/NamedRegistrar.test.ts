@@ -31,7 +31,7 @@ describe('NamedRegistrar', function () {
     registry = await DcNSRegistry.deploy()
     registrar = await NamedRegistrar.deploy(registry.address, namehash.hash('dc')!, 'dc')
 
-    await registrar.connect(accounts[0]).addController(controllerAccount)
+    await registrar.addController(controllerAccount)
     await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, registrar.address)
   })
 
@@ -106,7 +106,7 @@ describe('NamedRegistrar', function () {
 	})
 
   it('should allow the owner to set a resolver address', async () => {
-		await registrar.connect(accounts[0]).setResolver(controllerAccount)
+		await registrar.setResolver(controllerAccount)
     expect(await registry.resolver(namehash.hash('dc')), controllerAccount)
 	})
 
