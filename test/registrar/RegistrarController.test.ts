@@ -3,6 +3,7 @@ import { ethers } from 'hardhat'
 import { Signer, BigNumber } from 'ethers'
 import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, RegistrarController, ReverseRegistrar } from '../../typechain-types'
 import { sha3 } from 'web3-utils'
+import { getReverseNode } from '../test-utils/reverse'
 const namehash = require('eth-ens-namehash')
 
 const DAYS = 24 * 60 * 60;
@@ -91,7 +92,11 @@ describe('RegistrarController', function () {
   })
 
   it('should permit new registrations', async () => {
-    await controller.register('newname', registrantAccount, 28 * DAYS, { value: BigNumber.from('30000000000000000000') })
+    await expect(controller.register('newname', registrantAccount, 28 * DAYS, { value: BigNumber.from('30000000000000000000') }))
+      .to
+      .emit(controller, 'NameRegistered')
+      .emit(reverseRegistrar, 'ReverseClaimed')
+      .withArgs(ownerAccount, getReverseNode(ownerAccount))
   })
 
   it('should report registered names as unavailable', async () => {
