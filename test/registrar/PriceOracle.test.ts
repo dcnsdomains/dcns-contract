@@ -35,6 +35,7 @@ describe('PriceOracle', function () {
     const PriceOracle = await ethers.getContractFactory('PriceOracle')
     const DummyNameWrapper = await ethers.getContractFactory('DummyNameWrapper')
     const ReverseRegistrar = await ethers.getContractFactory('ReverseRegistrar')
+    const ERC721Datastore = await ethers.getContractFactory('ERC721Datastore')
 
     registry = await DcNSRegistry.deploy()
     nameWrapper = await DummyNameWrapper.deploy()
@@ -42,7 +43,8 @@ describe('PriceOracle', function () {
     baseRegistrar = await NamedRegistrar.deploy(registry.address, namehash.hash('dc')!, 'dc')
     priceOracle = await PriceOracle.deploy([0, 0, 234496672381308, 58624168095327, 7288410087527])
     reverseRegistrar = await ReverseRegistrar.deploy(registry.address, resolver.address)
-    controller = await DcRegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
+    const datastore = await ERC721Datastore.deploy()
+    controller = await DcRegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address, datastore.address)
 
     await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
     await baseRegistrar.addController(controller.address)

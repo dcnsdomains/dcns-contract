@@ -7,6 +7,7 @@ import "./StringUtils.sol";
 import "./IRegistrarController.sol";
 import "../resolver/Resolver.sol";
 import "../registry/ReverseRegistrar.sol";
+import "../registry/ERC721Datastore.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DcRegistrarController is IRegistrarController, Ownable {
@@ -16,15 +17,18 @@ contract DcRegistrarController is IRegistrarController, Ownable {
     NamedRegistrar public base;
     PriceOracle public prices;
     ReverseRegistrar public reverseRegistrar;
+    ERC721Datastore public datastore;
 
     constructor(
         NamedRegistrar _base,
         PriceOracle _prices,
-        ReverseRegistrar _reverseRegistrar
+        ReverseRegistrar _reverseRegistrar,
+        ERC721Datastore _datastore
     ) {
         base = _base;
         prices = _prices;
         reverseRegistrar = _reverseRegistrar;
+        datastore = _datastore;
     }
 
     function rentPrice(string memory name, uint duration) public view returns(uint) {
@@ -59,15 +63,14 @@ contract DcRegistrarController is IRegistrarController, Ownable {
 
         bytes32 label = keccak256(bytes(name));
         uint256 tokenId = uint256(label);
+        // The nodehash of this label
+        bytes32 nodehash = keccak256(abi.encodePacked(base.baseNode(), label));
 
         uint expires;
         if(resolver != address(0)) {
             // Set this contract as the (temporary) owner, giving it
             // permission to set up the resolver.
             expires = base.register(tokenId, address(this), duration);
-
-            // The nodehash of this label
-            bytes32 nodehash = keccak256(abi.encodePacked(base.baseNode(), label));
 
             // Set the resolver
             base.registry().setResolver(nodehash, resolver);
@@ -85,7 +88,8 @@ contract DcRegistrarController is IRegistrarController, Ownable {
             expires = base.register(tokenId, owner, duration);
         }
 
-        _setReverseRecord(name, owner);
+        reverseRegistrar.setNameForAddr(msg.sender, owner, string.concat(name, ".dc"));
+        datastore.setRecord(address(base), tokenId, name, label, nodehash);
 
         emit NameRegistered(name, label, owner, cost, expires);
 
@@ -116,14 +120,6 @@ contract DcRegistrarController is IRegistrarController, Ownable {
 
     function withdraw() public onlyOwner {
         payable(owner()).transfer(address(this).balance);
-    }
-
-    function _setReverseRecord(string memory name, address owner) internal {
-        reverseRegistrar.setNameForAddr(
-            msg.sender,
-            owner,
-            string.concat(name, ".dc")
-        );
     }
 
     function _consumeCommitment(string memory name, uint duration) internal returns (uint256) {

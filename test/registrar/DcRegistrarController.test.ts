@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
 import { Signer, BigNumber } from 'ethers'
-import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, DcRegistrarController, ReverseRegistrar } from '../../typechain-types'
+import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, DcRegistrarController, ReverseRegistrar, ERC721Datastore } from '../../typechain-types'
 import { sha3 } from 'web3-utils'
 import { getReverseNode } from '../test-utils/reverse'
 const namehash = require('eth-ens-namehash')
@@ -18,6 +18,7 @@ describe('DcRegistrarController', function () {
   let reverseRegistrar: ReverseRegistrar
   let priceOracle: PriceOracle
   let nameWrapper: DummyNameWrapper
+  let datastore: ERC721Datastore
 
   let accounts: Signer[]
   let ownerAccount: string
@@ -35,6 +36,7 @@ describe('DcRegistrarController', function () {
     const PriceOracle = await ethers.getContractFactory('PriceOracle')
     const DummyNameWrapper = await ethers.getContractFactory('DummyNameWrapper')
     const ReverseRegistrar = await ethers.getContractFactory('ReverseRegistrar')
+    const ERC721Datastore = await ethers.getContractFactory('ERC721Datastore')
 
     registry = await DcNSRegistry.deploy()
     nameWrapper = await DummyNameWrapper.deploy()
@@ -42,7 +44,8 @@ describe('DcRegistrarController', function () {
     baseRegistrar = await NamedRegistrar.deploy(registry.address, namehash.hash('dc')!, 'dc')
     priceOracle = await PriceOracle.deploy([0, 0, 234496672381308, 58624168095327, 7288410087527])
     reverseRegistrar = await ReverseRegistrar.deploy(registry.address, resolver.address)
-    controller = await DcRegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
+    datastore = await ERC721Datastore.deploy()
+    controller = await DcRegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address, datastore.address)
 
     await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
     await baseRegistrar.addController(controller.address)
@@ -50,6 +53,7 @@ describe('DcRegistrarController', function () {
     await reverseRegistrar.setController(controller.address, true)
     await registry.setSubnodeOwner(ZERO_HASH, sha3('reverse')!, ownerAccount)
     await registry.setSubnodeOwner(namehash.hash('reverse')!, sha3('addr')!, reverseRegistrar.address)
+    await datastore.setController(controller.address, true)
   })
 
   const checkLabels: { [key: string]: boolean } = {
@@ -97,10 +101,24 @@ describe('DcRegistrarController', function () {
       .emit(controller, 'NameRegistered')
       .emit(reverseRegistrar, 'ReverseClaimed')
       .withArgs(ownerAccount, getReverseNode(ownerAccount))
+      .emit(datastore, 'NewName')
+      .emit(datastore, 'NewLabelHash')
+      .emit(datastore, 'NewNodeHash')
   })
 
   it('should report registered names as unavailable', async () => {
     expect(await controller.available('newname')).to.false
+  })
+
+  it('should be stored in ERC721Datastore', async () => {
+    const name = 'newname'
+    const labelhash = sha3(name)
+    const tokenId = BigNumber.from(labelhash)
+    const nodehash = namehash.hash(name + '.dc')
+
+    expect(await datastore.name(baseRegistrar.address, tokenId)).to.eq(name)
+    expect(await datastore.labelhash(baseRegistrar.address, tokenId)).to.eq(labelhash)
+    expect(await datastore.nodehash(baseRegistrar.address, tokenId)).to.eq(nodehash)
   })
 
   it('should permit new registrations with config', async () => {
