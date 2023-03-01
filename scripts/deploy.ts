@@ -45,11 +45,11 @@ async function main() {
   await priceOracle.deployTransaction.wait()
   console.log('PriceOracle address', priceOracle.address)
 
-  // RegistrarController
-  const RegistrarController = await ethers.getContractFactory('RegistrarController')
-  const registrarController = await RegistrarController.deploy(namedRegistrar.address, priceOracle.address)
-  await registrarController.deployTransaction.wait()
-  console.log('RegistrarController address', registrarController.address)
+  // DcRegistrarController
+  const DcRegistrarController = await ethers.getContractFactory('DcRegistrarController')
+  const DcRegistrarController = await DcRegistrarController.deploy(namedRegistrar.address, priceOracle.address)
+  await DcRegistrarController.deployTransaction.wait()
+  console.log('DcRegistrarController address', DcRegistrarController.address)
 }
 
 main().catch((error) => {

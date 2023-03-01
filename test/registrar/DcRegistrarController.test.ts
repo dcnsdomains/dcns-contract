@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
 import { Signer, BigNumber } from 'ethers'
-import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, RegistrarController, ReverseRegistrar } from '../../typechain-types'
+import { DcNSRegistry, DummyNameWrapper, NamedRegistrar, PriceOracle, PublicResolver, DcRegistrarController, ReverseRegistrar } from '../../typechain-types'
 import { sha3 } from 'web3-utils'
 import { getReverseNode } from '../test-utils/reverse'
 const namehash = require('eth-ens-namehash')
@@ -10,11 +10,11 @@ const DAYS = 24 * 60 * 60;
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000'
 const ZERO_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
-describe('RegistrarController', function () {
+describe('DcRegistrarController', function () {
   let registry: DcNSRegistry
   let resolver: PublicResolver
   let baseRegistrar: NamedRegistrar
-  let controller: RegistrarController
+  let controller: DcRegistrarController
   let reverseRegistrar: ReverseRegistrar
   let priceOracle: PriceOracle
   let nameWrapper: DummyNameWrapper
@@ -31,7 +31,7 @@ describe('RegistrarController', function () {
     const DcNSRegistry = await ethers.getContractFactory('DcNSRegistry')
     const PublicResolver = await ethers.getContractFactory('PublicResolver')
     const NamedRegistrar = await ethers.getContractFactory('NamedRegistrar')
-    const RegistrarController = await ethers.getContractFactory('RegistrarController')
+    const DcRegistrarController = await ethers.getContractFactory('DcRegistrarController')
     const PriceOracle = await ethers.getContractFactory('PriceOracle')
     const DummyNameWrapper = await ethers.getContractFactory('DummyNameWrapper')
     const ReverseRegistrar = await ethers.getContractFactory('ReverseRegistrar')
@@ -42,7 +42,7 @@ describe('RegistrarController', function () {
     baseRegistrar = await NamedRegistrar.deploy(registry.address, namehash.hash('dc')!, 'dc')
     priceOracle = await PriceOracle.deploy([0, 0, 234496672381308, 58624168095327, 7288410087527])
     reverseRegistrar = await ReverseRegistrar.deploy(registry.address, resolver.address)
-    controller = await RegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
+    controller = await DcRegistrarController.deploy(baseRegistrar.address, priceOracle.address, reverseRegistrar.address)
 
     await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, baseRegistrar.address)
     await baseRegistrar.addController(controller.address)

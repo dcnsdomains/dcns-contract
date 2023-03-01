@@ -28,7 +28,7 @@ npx hardhat test
 | PublicResolver      | [0xc909B2b9Cd04b298c4b4578c8012CA79baf7267c](https://explorer-testnet.dogechain.dog/address/0xc909B2b9Cd04b298c4b4578c8012CA79baf7267c) |
 | NameRegistrar       | [0x2eDd425Fe1AF10280349e687f04583D06A2830c3](https://explorer-testnet.dogechain.dog/address/0x2eDd425Fe1AF10280349e687f04583D06A2830c3) |
 | PriceOracle         | [0x3e25C6A199e2C02aaA50D539A2dC938795ef62B3](https://explorer-testnet.dogechain.dog/address/0x3e25C6A199e2C02aaA50D539A2dC938795ef62B3) |
-| RegistrarController | [0x058374D022868525A1d603D0AbA5Dfd65E32d130](https://explorer-testnet.dogechain.dog/address/0x058374D022868525A1d603D0AbA5Dfd65E32d130) |
+| DcRegistrarController | [0x058374D022868525A1d603D0AbA5Dfd65E32d130](https://explorer-testnet.dogechain.dog/address/0x058374D022868525A1d603D0AbA5Dfd65E32d130) |
 
 
 ## For dogechain main net(2000)
@@ -39,4 +39,4 @@ npx hardhat test
 | PublicResolver      | -- NA --                                   |
 | NameRegistrar       | -- NA --                                   |
 | PriceOracle         | -- NA --                                   |
-| RegistrarController | -- NA --                                   |
+| DcRegistrarController | -- NA --                                   |

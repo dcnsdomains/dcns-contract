@@ -8,7 +8,7 @@ import "../resolver/Resolver.sol";
 import "../registry/ReverseRegistrar.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RegistrarController is Ownable {
+contract DcRegistrarController is Ownable {
     using StringUtils for *;
     uint constant public MIN_REGISTRATION_DURATION = 28 days;
 
