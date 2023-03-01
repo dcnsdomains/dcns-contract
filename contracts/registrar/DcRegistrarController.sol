@@ -101,7 +101,7 @@ contract DcRegistrarController is IRegistrarController, Ownable {
 
     function renew(string calldata name, uint duration) external payable {
         uint cost = rentPrice(name, duration);
-        require(msg.value >= cost);
+        require(msg.value >= cost, "insufficient funds for value");
 
         bytes32 label = keccak256(bytes(name));
         uint expires = base.renew(uint256(label), duration);
@@ -123,10 +123,10 @@ contract DcRegistrarController is IRegistrarController, Ownable {
     }
 
     function _consumeCommitment(string memory name, uint duration) internal returns (uint256) {
-        require(available(name));
+        require(available(name), "name unavailable");
         uint cost = rentPrice(name, duration);
-        require(duration >= MIN_REGISTRATION_DURATION);
-        require(msg.value >= cost);
+        require(duration >= MIN_REGISTRATION_DURATION, "Minimum registration period has not been reached");
+        require(msg.value >= cost, "insufficient funds for value");
 
         return cost;
     }
