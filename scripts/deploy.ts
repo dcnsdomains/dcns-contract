@@ -9,11 +9,7 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ZERO_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 async function verify(address: string, constructorArguments: any[]){
-  console.log(`verify  ${address} with arguments ${constructorArguments.join(',')}`)
-  await run("verify:verify", {
-    address,
-    constructorArguments
-  })
+  console.log(`npx hardhat vefiry --network ${network.name} ${address} ${constructorArguments.join(',')}`)
 }
 
 async function main() {
