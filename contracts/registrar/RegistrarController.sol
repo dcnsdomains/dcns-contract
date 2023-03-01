@@ -125,7 +125,7 @@ contract RegistrarController is Ownable {
         reverseRegistrar.setNameForAddr(
             msg.sender,
             owner,
-            string(abi.encodePacked(name, abi.encodePacked(".", base.baseNodeName())))
+            string.concat(name, ".dc")
         );
     }
 

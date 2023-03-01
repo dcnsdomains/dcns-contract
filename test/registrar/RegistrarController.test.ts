@@ -135,6 +135,12 @@ describe('RegistrarController', function () {
     await expect(controller.renew('name', 86400)).to.be.rejected
   })
 
+  it('should be able to reverse for registered name', async () => {
+    const reverseNode = await reverseRegistrar.node(ownerAccount)
+    expect(await registry.owner(reverseNode)).to.eq(registrantAccount)
+    expect(await resolver.name(reverseNode)).to.eq('newconfigname2.dc')
+  })
+
   it('should allow anyone to withdraw funds and transfer to the registrar owner', async () => {
     expect(await ethers.provider.getBalance(controller.address)).to.not.eq(0)
     await controller.withdraw({ from: ownerAccount })
