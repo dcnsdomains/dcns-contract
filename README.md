@@ -1,14 +1,14 @@
-# dcns-contract
+# dcns-contracts
 
-![CI](https://github.com/dcnsdomains/dcns-contract/workflows/CI/badge.svg)
+![CI](https://github.com/dcnsdomains/dcns-contracts/workflows/CI/badge.svg)
 
 For documentation of the DcNS system
 
 # How to setup
 
 ```
-git clone https://github.com/dcnsdomains/dcns-contract
-cd dcns-contract
+git clone https://github.com/dcnsdomains/dcns-contracts
+cd dcns-contracts
 npm install
 ```
 
