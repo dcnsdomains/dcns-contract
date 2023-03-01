@@ -158,16 +158,16 @@ contract ReverseRegistrar is Ownable, Controllable {
 
     function _claimWithResolver(address addr, address owner, address resolver) internal returns (bytes32) {
         bytes32 label = sha3HexAddress(addr);
-        bytes32 node = keccak256(abi.encodePacked(ADDR_REVERSE_NODE, label));
-        address currentResolver = registry.resolver(node);
+        bytes32 reverseNode = keccak256(abi.encodePacked(ADDR_REVERSE_NODE, label));
+        address currentResolver = registry.resolver(reverseNode);
         bool shouldUpdateResolver = (resolver != address(0x0) && resolver != currentResolver);
         address newResolver = shouldUpdateResolver ? resolver : currentResolver;
 
         registry.setSubnodeRecord(ADDR_REVERSE_NODE, label, owner, newResolver, 0);
 
-        emit ReverseClaimed(addr, node);
+        emit ReverseClaimed(addr, reverseNode);
         
-        return node;
+        return reverseNode;
     }
 
     function ownsContract(address addr) internal view returns (bool) {
