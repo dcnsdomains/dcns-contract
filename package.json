@@ -4,7 +4,9 @@
   "description": "DcNS contracts",
   "scripts": {
     "compile": "hardhat compile",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "deploy:dogechain": "hardhat run scripts/deploy.ts --network dogechain",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network dogechain-testnet"
   },
   "dependencies": {
     "@ensdomains/ens-contracts": "^0.0.17",
