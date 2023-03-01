@@ -24,13 +24,13 @@ npx hardhat test
 
 | Contract              | Address                                                                                                                                 |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| DcNSRegistry          | [0x27447CB5Ce818DcDd4eD9FB5C01737F84BBf09Fb](https://explorer-testnet.dogechain.dog/address/0x27447CB5Ce818DcDd4eD9FB5C01737F84BBf09Fb) |
-| PublicResolver        | [0x446e3d88547846a436c88f220653B74B89513a19](https://explorer-testnet.dogechain.dog/address/0x446e3d88547846a436c88f220653B74B89513a19) |
-| NamedRegistrar        | [0x12420204a54471B910d201A3E7cC30eA6e617671](https://explorer-testnet.dogechain.dog/address/0x12420204a54471B910d201A3E7cC30eA6e617671) |
-| PriceOracle           | [0xd67F6E4741c030648bB579a5e8ef010d8F6224Fc](https://explorer-testnet.dogechain.dog/address/0xd67F6E4741c030648bB579a5e8ef010d8F6224Fc) |
-| DcRegistrarController | [0x551467Ea3174089F2a39564B28170626376C8226](https://explorer-testnet.dogechain.dog/address/0x551467Ea3174089F2a39564B28170626376C8226) |
-| ReverseRegistrar      | [0x4a9500Ac5526a5F7797043c6211e3C43a0Db0350](https://explorer-testnet.dogechain.dog/address/0x4a9500Ac5526a5F7797043c6211e3C43a0Db0350) |
-| ERC721Datastore       | [0x9604bBF84099b7d5f8D372fd33D60773BFd38505](https://explorer-testnet.dogechain.dog/address/0x9604bBF84099b7d5f8D372fd33D60773BFd38505) |
+| DcNSRegistry          | [0xD007B8EF92D6B17e8f7F6d0A4f774886670679C4](https://explorer-testnet.dogechain.dog/address/0xD007B8EF92D6B17e8f7F6d0A4f774886670679C4) |
+| PublicResolver        | [0x395a96b58574b4138f4F0B9d4A28935D1107732e](https://explorer-testnet.dogechain.dog/address/0x395a96b58574b4138f4F0B9d4A28935D1107732e) |
+| NamedRegistrar        | [0xbEE8EfC14b2fe020c1Eb7F5EE810Dffa27d638eD](https://explorer-testnet.dogechain.dog/address/0xbEE8EfC14b2fe020c1Eb7F5EE810Dffa27d638eD) |
+| PriceOracle           | [0x40629DBaDD508C7e7cA6daa83e023E38Ab257664](https://explorer-testnet.dogechain.dog/address/0x40629DBaDD508C7e7cA6daa83e023E38Ab257664) |
+| DcRegistrarController | [0x9060b465DfEf00d42F2e946dD817126A95256Ac2](https://explorer-testnet.dogechain.dog/address/0x9060b465DfEf00d42F2e946dD817126A95256Ac2) |
+| ReverseRegistrar      | [0xef37430185AB743c769fa988Ba6b05dF9AfE4f47](https://explorer-testnet.dogechain.dog/address/0xef37430185AB743c769fa988Ba6b05dF9AfE4f47) |
+| ERC721Datastore       | [0x5272a9561234136Ea14FD5D7587D99c231dCd653](https://explorer-testnet.dogechain.dog/address/0x5272a9561234136Ea14FD5D7587D99c231dCd653) |
 
 
 ## For dogechain main net(2000)

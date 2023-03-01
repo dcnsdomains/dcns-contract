@@ -9,7 +9,7 @@ const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 const ZERO_HASH = "0x0000000000000000000000000000000000000000000000000000000000000000";
 
 async function verify(address: string, constructorArguments: any[]){
-  console.log(`npx hardhat vefiry --network ${network.name} ${address} ${constructorArguments.join(',')}`)
+  console.log(`npx hardhat verify --network ${network.name} ${address} ${constructorArguments.join(' ')}`)
 }
 
 async function main() {
@@ -27,16 +27,6 @@ async function main() {
   const resolver = await PublicResolver.deploy(registry.address, ZERO_ADDRESS)
   await resolver.deployTransaction.wait()
   console.log('PublicResolver address', resolver.address)
-
-  const resolverNode = namehash('resolver')
-  const resolverLabel = labelhash('resolver')
-
-  console.log('resolverNode', resolverNode)
-  console.log('resolverLabel', resolverLabel)
-
-  await registry.setSubnodeOwner(ZERO_HASH, resolverLabel, deployer.address)
-  await registry.setResolver(resolverNode, resolver.address)
-  await resolver.setAddr(resolverNode, resolver.address)
 
   // NamedRegistrar
   const NamedRegistrar = await ethers.getContractFactory('NamedRegistrar')
@@ -87,6 +77,16 @@ async function main() {
   await registry.setSubnodeOwner(ZERO_HASH, sha3('reverse')!, deployer.address)
   await registry.setSubnodeOwner(namehash('reverse')!, sha3('addr')!, reverseRegistrar.address)
   await datastore.setController(dcRegistrarController.address, true)
+
+  const resolverNode = namehash('resolver')
+  const resolverLabel = labelhash('resolver')
+
+  console.log('resolverNode', resolverNode)
+  console.log('resolverLabel', resolverLabel)
+
+  await registry.setSubnodeOwner(ZERO_HASH, resolverLabel, deployer.address)
+  await registry.setResolver(resolverNode, resolver.address)
+  await resolver.setAddr(resolverNode, resolver.address)
 }
 
 main().catch((error) => {
