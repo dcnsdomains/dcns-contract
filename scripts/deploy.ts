@@ -60,13 +60,13 @@ async function main() {
 
   // Verify arugments
   console.log('----- Verify Arguments -----')
-  await verify(registry.address, [])
-  await verify(resolver.address, [registry.address, ZERO_ADDRESS])
-  await verify(namedRegistrar.address, [registry.address, namehash('dc'), 'dc'])
-  await verify(priceOracle.address, [[0, 0, 234496672381308, 58624168095327, 7288410087527]])
-  await verify(reverseRegistrar.address, [registry.address, resolver.address])
-  await verify(datastore.address, [])
-  await verify(dcRegistrarController.address, [namedRegistrar.address, priceOracle.address, reverseRegistrar.address, datastore.address])
+  verify(registry.address, [])
+  verify(resolver.address, [registry.address, ZERO_ADDRESS])
+  verify(namedRegistrar.address, [registry.address, namehash('dc'), 'dc'])
+  verify(priceOracle.address, [[0, 0, 234496672381308, 58624168095327, 7288410087527]])
+  verify(reverseRegistrar.address, [registry.address, resolver.address])
+  verify(datastore.address, [])
+  verify(dcRegistrarController.address, [namedRegistrar.address, priceOracle.address, reverseRegistrar.address, datastore.address])
 
   // Contract settings
   console.log('----- Contract Settings -----')
