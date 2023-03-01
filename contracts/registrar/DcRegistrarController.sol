@@ -4,21 +4,18 @@ pragma solidity ^0.8.17;
 import "./NamedRegistrar.sol";
 import "./PriceOracle.sol";
 import "./StringUtils.sol";
+import "./IRegistrarController.sol";
 import "../resolver/Resolver.sol";
 import "../registry/ReverseRegistrar.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DcRegistrarController is Ownable {
+contract DcRegistrarController is IRegistrarController, Ownable {
     using StringUtils for *;
     uint constant public MIN_REGISTRATION_DURATION = 28 days;
 
     NamedRegistrar public base;
     PriceOracle public prices;
     ReverseRegistrar public reverseRegistrar;
-
-    event NameRegistered(string name, bytes32 indexed label, address indexed owner, uint cost, uint expires);
-    event NameRenewed(string name, bytes32 indexed label, uint cost, uint expires);
-    event NewPriceOracle(address indexed oracle);
 
     constructor(
         NamedRegistrar _base,
@@ -30,7 +27,7 @@ contract DcRegistrarController is Ownable {
         reverseRegistrar = _reverseRegistrar;
     }
 
-    function rentPrice(string memory name, uint duration) view public returns(uint) {
+    function rentPrice(string memory name, uint duration) public view returns(uint) {
         return prices.price(name, duration);
     }
 
