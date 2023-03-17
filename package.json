@@ -9,7 +9,7 @@
     "deploy:testnet": "hardhat run scripts/deploy.ts --network dogechain-testnet"
   },
   "dependencies": {
-    "@ensdomains/ens-contracts": "^0.0.17",
+    "@ensdomains/ens-contracts": "^0.0.20",
     "@openzeppelin/contracts": "^4.8.2"
   },
   "devDependencies": {
