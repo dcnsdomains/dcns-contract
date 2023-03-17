@@ -70,14 +70,6 @@ async function main() {
 
   // Contract settings
   console.log('----- Contract Settings -----')
-  await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, namedRegistrar.address)
-  await namedRegistrar.addController(dcRegistrarController.address)
-  await dcRegistrarController.setPriceOracle(priceOracle.address)
-  await reverseRegistrar.setController(dcRegistrarController.address, true)
-  await registry.setSubnodeOwner(ZERO_HASH, sha3('reverse')!, deployer.address)
-  await registry.setSubnodeOwner(namehash('reverse')!, sha3('addr')!, reverseRegistrar.address)
-  await datastore.setController(dcRegistrarController.address, true)
-
   const resolverNode = namehash('resolver')
   const resolverLabel = labelhash('resolver')
 
@@ -87,6 +79,15 @@ async function main() {
   await registry.setSubnodeOwner(ZERO_HASH, resolverLabel, deployer.address)
   await registry.setResolver(resolverNode, resolver.address)
   await resolver.setAddr(resolverNode, resolver.address)
+  await registry.setSubnodeOwner(ZERO_HASH, sha3('dc')!, namedRegistrar.address)
+  await registry.setSubnodeOwner(ZERO_HASH, sha3('reverse')!, deployer.address)
+  await registry.setSubnodeOwner(namehash('reverse')!, sha3('addr')!, reverseRegistrar.address)
+
+  await namedRegistrar.addController(dcRegistrarController.address)
+  await dcRegistrarController.setPriceOracle(priceOracle.address)
+  await reverseRegistrar.setController(dcRegistrarController.address, true)
+  await datastore.setController(dcRegistrarController.address, true)
+
 }
 
 main().catch((error) => {
