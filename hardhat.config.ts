@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true
     },
     dogechain: {
-      url: "https://dogechain.ankr.com",
+      url: "https://rpc.ankr.com/dogechain",
       accounts: real_accounts,
       chainId: 2000,
       blockGasLimit: 50000000000,
