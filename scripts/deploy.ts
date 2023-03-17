@@ -1,5 +1,5 @@
-import { ethers, run, network } from "hardhat";
-import { sha3 } from 'web3-utils';
+import { ethers, run, network } from "hardhat"
+import { sha3 } from 'web3-utils'
 const n = require('eth-ens-namehash')
 const namehash = n.hash
 const utils = ethers.utils;

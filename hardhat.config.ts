@@ -1,8 +1,8 @@
-import { HardhatUserConfig } from "hardhat/config";
-import "@nomicfoundation/hardhat-toolbox";
-import "@nomiclabs/hardhat-etherscan";
+import { HardhatUserConfig } from "hardhat/config"
+import "@nomicfoundation/hardhat-toolbox"
+import "@nomiclabs/hardhat-etherscan"
 
-require('dotenv').config({silent: true});
+require('dotenv').config({silent: true})
 
 const FAKE_KEY = '1534212400595780128907894565908032193840975895983208948093128444'
 const real_accounts = [
@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true
     },
     dogechain: {
-      url: "https://rpc.ankr.com/dogechain",
+      url: "https://rpc.dogechain.dog",
       accounts: real_accounts,
       chainId: 2000,
       blockGasLimit: 50000000000,
@@ -62,6 +62,6 @@ const config: HardhatUserConfig = {
       }
     ]
   },
-};
+}
 
-export default config;
+export default config
