@@ -1,6 +1,6 @@
-import { HardhatUserConfig } from "hardhat/config"
-import "@nomicfoundation/hardhat-toolbox"
-import "@nomiclabs/hardhat-etherscan"
+import { HardhatUserConfig } from 'hardhat/config'
+import '@nomicfoundation/hardhat-toolbox'
+import '@nomiclabs/hardhat-etherscan'
 
 require('dotenv').config({silent: true})
 
@@ -10,7 +10,7 @@ const real_accounts = [
 ]
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.17",
+  solidity: '0.8.17',
   networks: {
     localhost: {
       blockGasLimit: 30000000,
@@ -22,15 +22,15 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: true
     },
     dogechain: {
-      url: "https://rpc.dogechain.dog",
+      url: 'https://rpc.dogechain.dog',
       accounts: real_accounts,
       chainId: 2000,
       blockGasLimit: 50000000000,
       gasPrice: 'auto',
       allowUnlimitedContractSize: true
     },
-    "dogechain-testnet": {
-      url: "https://rpc-testnet.dogechain.dog",
+    'dogechain-testnet': {
+      url: 'https://rpc-testnet.dogechain.dog',
       accounts: real_accounts,
       chainId: 568,
       blockGasLimit: 50000000000,
@@ -42,19 +42,19 @@ const config: HardhatUserConfig = {
     apiKey: process.env.ETHERSCAN_API_KEY,
     customChains: [
       {
-        network: "dogechain",
+        network: 'dogechain',
         chainId: 2000,
         urls: {
-          apiURL: "https://explorer.dogechain.dog/api",
-          browserURL: "https://explorer.dogechain.dog/"
+          apiURL: 'https://explorer.dogechain.dog/api',
+          browserURL: 'https://explorer.dogechain.dog/'
         }
       },
       {
-        network: "dogechain-testnet",
+        network: 'dogechain-testnet',
         chainId: 568,
         urls: {
-          apiURL: "https://explorer-testnet.dogechain.dog/api",
-          browserURL: "https://explorer-testnet.dogechain.dog/"
+          apiURL: 'https://explorer-testnet.dogechain.dog/api',
+          browserURL: 'https://explorer-testnet.dogechain.dog/'
         }
       }
     ]
