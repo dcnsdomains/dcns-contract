@@ -26,7 +26,7 @@ const config: HardhatUserConfig = {
       accounts: real_accounts,
       chainId: 2000,
       blockGasLimit: 50000000000,
-      gasPrice: 50000000000,
+      gasPrice: 'auto',
       allowUnlimitedContractSize: true
     },
     "dogechain-testnet": {
@@ -39,10 +39,7 @@ const config: HardhatUserConfig = {
     }
   },
   etherscan: {
-    apiKey: {
-      dogechain: "48828825-a751-4b2a-956e-7b6f1e10ecff",
-      'dogechain-testnet': "48828825-a751-4b2a-956e-7b6f1e10ecff",
-    },
+    apiKey: "48828825-a751-4b2a-956e-7b6f1e10ecff",
     customChains: [
       {
         network: "dogechain",
