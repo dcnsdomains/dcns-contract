@@ -37,10 +37,10 @@ npx hardhat test
 
 | Contract              | Address                                    |
 | --------------------- | ------------------------------------------ |
-| DcNSRegistry          | -- NA --                                   |
-| PublicResolver        | -- NA --                                   |
-| NamedRegistrar        | -- NA --                                   |
-| PriceOracle           | -- NA --                                   |
-| DcRegistrarController | -- NA --                                   |
-| ReverseRegistrar      | -- NA --                                   |
-| ERC721Datastore       | -- NA --                                   |
+| DcNSRegistry          | [0xeDD7631fa23382780206f46f978120066253010e](https://explorer.dogechain.dog/address/0xeDD7631fa23382780206f46f978120066253010e) |
+| PublicResolver        | [0x3CCEd58C134511CA8D410118255f81774d5BE24A](https://explorer.dogechain.dog/address/0x3CCEd58C134511CA8D410118255f81774d5BE24A) |
+| NamedRegistrar        | [0xAbB9730D69396ac28DB81B6b43F0D74803c4E3AD](https://explorer.dogechain.dog/address/0xAbB9730D69396ac28DB81B6b43F0D74803c4E3AD) |
+| PriceOracle           | [0x62aC3e6b050a7bc03FAAeAF236E72246C35D714a](https://explorer.dogechain.dog/address/0x62aC3e6b050a7bc03FAAeAF236E72246C35D714a) |
+| DcRegistrarController | [0xC348f7A377B21933e465f2E9E73A91D6Ee9313Eb](https://explorer.dogechain.dog/address/0xC348f7A377B21933e465f2E9E73A91D6Ee9313Eb) |
+| ReverseRegistrar      | [0x096B3e5a85583fb01EFB53717e1B6862Cd28ba41](https://explorer.dogechain.dog/address/0x096B3e5a85583fb01EFB53717e1B6862Cd28ba41) |
+| ERC721Datastore       | [0x337EEc7a4156461f159CAb977f2627870AbB50c2](https://explorer.dogechain.dog/address/0x337EEc7a4156461f159CAb977f2627870AbB50c2) |
